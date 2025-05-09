@@ -1,0 +1,51 @@
+# Node modules
+node_modules/
+
+# Build output
+.next/
+out/
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.*
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Solidity artifacts
+artifacts/
+cache/
+
+# Hardhat/Truffle
+coverage/
+coverage.json
+*.tsbuildinfo
+
+# Misc
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# VSCode
+.vscode/
+
+# Test coverage
+lcov-report/
+lcov.info
+
+# Supabase
+.supabase/
+
+# Others
+*.tgz
+*.swp 
