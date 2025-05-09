@@ -1,13 +1,35 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WalletConnect from '../components/WalletConnect';
 import CredentialList from '../components/CredentialList';
 import CreateCredential from '../components/CreateCredential';
 import DIDManager from '../components/DIDManager';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'credentials' | 'create' | 'did'>('credentials');
+  const [user, setUser] = useState<any>(null);
+  const supabase = createClientComponentClient();
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data?.user || null));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+    });
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, [supabase]);
+
+  const handleLogin = () => {
+    window.location.href = '/login';
+  };
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.href = '/';
+  };
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -35,7 +57,24 @@ export default function Home() {
         </div>
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">DID Blockchain Credential System</h1>
-          <WalletConnect />
+          <div className="flex items-center space-x-4">
+            <WalletConnect />
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={handleLogin}
+                className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
+              >
+                Login
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="mb-8">
