@@ -13,6 +13,9 @@ export default function WalletConnect() {
 
   React.useEffect(() => setMounted(true), []);
 
+  // MetaMask detection
+  const isMetaMaskInstalled = typeof window !== 'undefined' && (window as any).ethereum && (window as any).ethereum.isMetaMask;
+
   if (!mounted) return null;
 
   if (isConnected) {
@@ -32,7 +35,13 @@ export default function WalletConnect() {
   return (
     <div className="flex space-x-4">
       <button
-        onClick={() => connect({ connector: injected() })}
+        onClick={() => {
+          if (!isMetaMaskInstalled) {
+            alert('MetaMask not detected. Please install MetaMask from https://metamask.io/');
+            return;
+          }
+          connect({ connector: injected() });
+        }}
         className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
       >
         Connect MetaMask

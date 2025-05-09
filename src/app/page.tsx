@@ -23,6 +23,9 @@ export default function Home() {
               <b>WalletConnect:</b> Click "Connect WalletConnect". Scan the QR code with your mobile wallet app (e.g., MetaMask Mobile, Trust Wallet). If you copy the link, paste it into your wallet app's WalletConnect feature.
             </li>
             <li>
+              <b>After scanning or pasting the link:</b> In your wallet app, approve the connection request. Once approved, return to this page and your wallet address will appear at the top.
+            </li>
+            <li>
               After connecting, your wallet address will appear at the top of the page.
             </li>
           </ol>
